@@ -2,7 +2,10 @@ source 'https://rubygems.org/'
 
 
 gem 'grape', '~>0.13'
-gem 'rack' , '~>1.6.1'
+gem 'rack' , '~>1.6'
+
+gem 'thor', '~>0.19'
+gem 'prawn', '~>2.0'
 
 group :development do
   gem 'guard'

@@ -69,6 +69,10 @@ GEM
     notiffany (0.0.7)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    pdf-core (0.6.0)
+    prawn (2.0.2)
+      pdf-core (~> 0.6.0)
+      ttfunk (~> 1.4.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -100,6 +104,7 @@ GEM
       ffi
     thor (0.19.1)
     thread_safe (0.3.5)
+    ttfunk (1.4.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     virtus (1.0.5)
@@ -117,5 +122,7 @@ DEPENDENCIES
   guard-bundler
   guard-rack
   guard-rspec
-  rack (~> 1.6.1)
+  prawn (~> 2.0)
+  rack (~> 1.6)
   rspec
+  thor (~> 0.19)
