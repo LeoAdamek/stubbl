@@ -8,6 +8,9 @@ gem 'thor', '~>0.19'
 gem 'prawn', '~>2.0'
 
 gem 'settingslogic', '~>2.0.9'
+gem 'httparty', '~> 0.13'
+
+gem 'hashie', '~>3.4.2'
 
 group :development do
   gem 'guard'
