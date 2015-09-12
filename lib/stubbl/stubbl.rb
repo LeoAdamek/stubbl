@@ -20,7 +20,13 @@ module Stubbl
       require 'stubbl/cli/cli'
     end
 
-    #self.root = File.expand_path(File.dirname(File.dirname __FILE__))
+    ##
+    # Load Generagtor
+    #
+    # Loads the Stub Generator
+    def load_generator
+      require 'stubbl/generator/generator'
+    end
   end
 
 end
