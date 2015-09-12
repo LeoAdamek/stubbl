@@ -7,6 +7,8 @@ gem 'rack' , '~>1.6'
 gem 'thor', '~>0.19'
 gem 'prawn', '~>2.0'
 
+gem 'settingslogic', '~>2.0.9'
+
 group :development do
   gem 'guard'
   gem 'guard-rack'
