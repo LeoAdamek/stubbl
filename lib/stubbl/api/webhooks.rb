@@ -4,7 +4,10 @@ module Stubbl
 
       desc 'Get the Atlassian Connect description'
       get '/atlassian-connect' do
+        {
+          message: 'Not yet implemented'
 
+        }
       end
       
     end
