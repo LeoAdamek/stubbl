@@ -17,7 +17,7 @@ module Stubbl
           margin: 2.mm
         )
 
-        doc.font "Courier"
+        doc.font 'Courier'
         
         page_for_issue( doc, issue )
 
@@ -38,6 +38,8 @@ module Stubbl
           margin: 1.mm
         )
 
+        doc.font 'Courier'
+
         issues.each do |issue|
           doc.start_new_page
           page_for_issue(doc, jira.issue(issue))
@@ -57,13 +59,14 @@ module Stubbl
 
         # Add the issue key
         doc.draw_text issue[:key],
-                      at: [3.mm , (12.5).mm],
+                      at: [5.mm , (12.5).mm],
                       size: 14
 
         # Add the type
-        doc.draw_text issue.fields.issuetype.name[0].upcase,
-                      at: [0, (12.5).mm],
-                      size: 10
+        doc.image issue.icon,
+                  at: [0, 16.mm],
+                  width: 4.mm,
+                  height: 4.mm
         
         # Draw the top-line
         doc.horizontal_line (-2).mm, 53.mm, at: 12.mm
