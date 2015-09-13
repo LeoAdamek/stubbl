@@ -7,26 +7,18 @@ module Stubbl
       desc 'issue [🔑]', 'Generate the stub for issue 🔑'
       map 'i' => :issue
       def issue(issue_key)
-        jira = Stubbl::JIRA.new( ENV['JIRA_URL'], ENV['JIRA_USER'], ENV['JIRA_PASS'] )
-        issue = jira.issue issue_key
-
         # Output the PDF to STDOUT so we can pipe it 😁
-        puts (Stubbl::Generator.issue issue).render
+        puts (Stubbl::Generator.issue issue_key).render
       end
 
 
       desc 'issues [key]...', 'Generate stubs for each issue KEY'
       def issues(*issue_keys)
-        jira = Stubbl::JIRA.new( ENV['JIRA_URL'], ENV['JIRA_USER'], ENV['JIRA_PASS'] )
 
-        issues = issue_keys.collect do |key|
-          jira.issue key
-        end
 
-        puts (Stubbl::Generator.issues issues).render
+        puts (Stubbl::Generator.issues issue_keys).render
        
-       end
-      
+      end
     end
   end
 end
