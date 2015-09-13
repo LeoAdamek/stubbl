@@ -12,6 +12,8 @@ gem 'httparty', '~> 0.13'
 
 gem 'hashie', '~>3.4.2'
 
+gem 'rqrcode', '~> 0.7'
+
 group :development do
   gem 'guard'
   gem 'guard-rack'
