@@ -19,6 +19,14 @@ module Stubbl
         puts (Stubbl::Generator.issues issue_keys).render
        
       end
+
+      desc 'search [query]', 'Generate stubs for issues matching the jql QUERY'
+      map 's' => :search
+      def search(*query)
+        j = Stubbl::JIRA.new
+
+        j.search(query.join(' ')).each { |i| puts i[:key] }
+      end
     end
   end
 end
