@@ -100,7 +100,7 @@ module Stubbl
         
         # Add a QR code which links to the issue
         # FIXME: I don't show up on the output PDF.
-        qrcode = RQRCode::QRCode.new(issue.self)
+        qrcode = RQRCode::QRCode.new(issue.short_url)
 
         doc.svg qrcode.as_svg,
                 at: [30.mm, 25.mm],

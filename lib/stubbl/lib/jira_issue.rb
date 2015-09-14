@@ -17,5 +17,30 @@ module Stubbl
         return nil
       end
     end
+
+    ##
+    # Get a short url to an issue.
+    #
+    # Uses bit.ly to shorten urls if it is configured.
+    # Otherwise returns full URL.
+    #
+    # @return [String] Short URL
+    def short_url
+      if ENV['BITLY_USER'] && ENV['BITLY_PASS']
+        bitly_short_url
+      else
+        send(:self)
+      end
+    end
+
+
+    private
+    ##
+    # Get the short url via bitly
+    def bitly_short_url
+      Bitly.use_api_version_3
+      bitly = Bitly.new(ENV['BITLY_USER'], ENV['BITLY_PASS'])
+      bitly.shorten(send(:self), history: 1).jmp_url
+    end
   end
 end
