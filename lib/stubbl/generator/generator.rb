@@ -63,10 +63,12 @@ module Stubbl
                       size: 24
 
         # Add the type
-        doc.image issue.icon,
+        unless issue.icon.nil?
+          doc.image issue.icon,
                   at: [0, 48.mm],
                   width: 10.mm,
                   height: 10.mm
+        end
         
         # Draw the top-line
         doc.horizontal_line (-2).mm, 53.mm, at: 48.mm
@@ -82,6 +84,7 @@ module Stubbl
                       size: 14
         
         # Add a QR code which links to the issue
+        # FIXME: I don't show up on the output PDF.
         qrcode = RQRCode::QRCode.new(issue.self)
 
         qrfile = Tempfile.new("issue-#{issue[:key]}-qr")
