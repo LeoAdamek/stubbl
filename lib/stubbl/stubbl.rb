@@ -3,6 +3,10 @@
 # Stubbl
 #
 module Stubbl
+
+  # TODO: Parametize
+  PRINTER_NAME = 'DYMO_LW_450'
+  
   class << self
     ##
     # Load the Web API

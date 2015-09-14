@@ -4,6 +4,21 @@ module Stubbl
     class << self
 
       ##
+      # Print the given stub
+      #
+      # @param [String] content Stub content
+      def print(content)
+        f = Tempfile.new('stub')
+        f.write(content)
+        f.rewind
+        
+        `lpr -P#{Stubbl::PRINTER_NAME} < #{f.path}`
+
+        f.unlink
+        f.close
+      end
+      
+      ##
       # Generate the stub for a single issue
       #
       # @param [String] issue JIRA Issue Key
@@ -87,19 +102,10 @@ module Stubbl
         # FIXME: I don't show up on the output PDF.
         qrcode = RQRCode::QRCode.new(issue.self)
 
-        qrfile = Tempfile.new("issue-#{issue[:key]}-qr")
-        qrcode.as_png(
-          fill: 'white',
-          color: 'black',
-          size: 64,
-          border_modules: 4,
-          module_px_size: 6,
-          file: qrfile.path
-        )
-        
-        doc.image qrfile.path, at: [0, 0]
+        doc.svg qrcode.as_svg,
+                at: [30.mm, 25.mm],
+                width: 25.mm
 
-        qrfile.unlink
       end
     end
   end

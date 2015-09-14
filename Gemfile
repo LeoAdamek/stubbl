@@ -6,6 +6,7 @@ gem 'rack' , '~>1.6'
 
 gem 'thor', '~>0.19'
 gem 'prawn', '~>2.0'
+gem 'prawn-svg', '~>0.21'
 
 gem 'settingslogic', '~>2.0.9'
 gem 'httparty', '~> 0.13'
