@@ -6,6 +6,7 @@ module Stubbl
   # Used to make API requets to JIRA.
   class JIRA
     include HTTParty
+    include ERB::Util
 
     ##
     # Initialize A JIRA CLient
@@ -29,12 +30,26 @@ module Stubbl
     #
     # @param [String] issue_key Issue Key
     #
-    # @return [Hash] Issue Data
+    # @return [Stubbl::JIRAIssue] Issue Data
     def issue(issue_key)
       JIRAIssue.new self.class.get "/issue/#{issue_key}"
+    end
+
+    ##
+    # Search for issues
+    #
+    # @param [String] query JQL Query
+    #
+    # @return [Array[Stubbl::JIRAIssue]] Matching issues
+    def search(query)
+      self.class.get('/search/?q=' + url_encode(query))["issues"].collect do |issue|
+        JIRAIssue.new issue
+      end
     end
     
   end
 end
 
 require 'stubbl/lib/jira_issue'
+require 'erb'
+
