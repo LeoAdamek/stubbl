@@ -1,4 +1,4 @@
-require_relative './lib/stubbl/stubbl'
+require './lib/stubbl/stubbl'
 
 Stubbl.load_cli
 Stubbl.load_generator
