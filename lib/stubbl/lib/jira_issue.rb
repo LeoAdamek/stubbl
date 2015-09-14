@@ -6,12 +6,16 @@ module Stubbl
     #
     # @return [String] icon file path
     def icon
-      s = fields.issuetype.name.downcase.gsub(/\W+/, '_')
-      ip = File.expand_path( File.dirname(__FILE__) + '/../icons/' + s + '.png')
+      begin
+        s = fields.issuetype.name.downcase.gsub(/\W+/, '_')
+        ip = File.expand_path( File.dirname(__FILE__) + '/../icons/' + s + '.png')
 
-      return ip if File.exists? ip
+        return ip if File.exists? ip
 
-      s[0].upcase
+      rescue Exception => e
+        STDERR.puts e.message
+        return nil
+      end
     end
   end
 end
