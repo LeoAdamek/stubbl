@@ -12,7 +12,7 @@ module Stubbl
         issue = jira.issue issue_key
         
         doc = Prawn::Document.new(
-          page_size: [19.mm, 53.mm],
+          page_size: [53.mm, 75.mm],
           page_layout: :landscape,
           margin: 2.mm
         )
@@ -33,9 +33,9 @@ module Stubbl
         jira = Stubbl::JIRA.new( ENV['JIRA_URL'], ENV['JIRA_USER'], ENV['JIRA_PASS'] )
         
         doc = Prawn::Document.new(
-          page_size: [19.mm, 53.mm],
+          page_size: [53.mm, 75.mm],
           page_layout: :landscape,
-          margin: 1.mm
+          margin: 2.mm
         )
 
         doc.font 'Courier'
@@ -59,27 +59,27 @@ module Stubbl
 
         # Add the issue key
         doc.draw_text issue[:key],
-                      at: [5.mm , (12.5).mm],
-                      size: 14
+                      at: [15.mm , 40.mm],
+                      size: 24
 
         # Add the type
         doc.image issue.icon,
-                  at: [0, 16.mm],
-                  width: 4.mm,
-                  height: 4.mm
+                  at: [0, 48.mm],
+                  width: 10.mm,
+                  height: 10.mm
         
         # Draw the top-line
-        doc.horizontal_line (-2).mm, 53.mm, at: 12.mm
+        doc.horizontal_line (-2).mm, 53.mm, at: 48.mm
         
         # Add the summary
-        doc.move_down 5.mm
+        doc.move_down 12.mm
         doc.text issue.fields.summary,
-                      size: 8
+                      size: 12
 
         # Add the creation date so we know if the issue is stale.
         doc.draw_text (Time.parse issue.fields.created).strftime('%d/%m/%y'),
                       at: [0, 1],
-                      size: 10
+                      size: 14
         
         # Add a QR code which links to the issue
         qrcode = RQRCode::QRCode.new(issue.self)
