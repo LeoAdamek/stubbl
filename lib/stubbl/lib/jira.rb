@@ -18,7 +18,7 @@ module Stubbl
     # @param [String] username JIRA Username
     # @param [String] password JIRA Password
     #
-    def initialize(jira_uri, username, password)
+    def initialize(jira_uri = ENV['JIRA_URL'], username = ENV['JIRA_USER'], password = ENV['JIRA_PASS'])
       self.class.basic_auth( username, password )
       self.class.base_uri  (jira_uri + '/rest/api/2/')
     end
