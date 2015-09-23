@@ -21,7 +21,7 @@ module Stubbl
     #
     def initialize(jira_uri = ENV['JIRA_URL'], username = ENV['JIRA_USER'], password = ENV['JIRA_PASS'])
       self.class.basic_auth( username, password )
-      self.class.base_uri  (jira_uri + '/rest/api/2/')
+      self.class.base_uri (jira_uri + '/rest/api/2/')
     end
 
 
@@ -32,7 +32,7 @@ module Stubbl
     #
     # @return [Stubbl::JIRAIssue] Issue Data
     def issue(issue_key)
-      JIRAIssue.new self.class.get "/issue/#{issue_key}"
+      JIRAIssue.new (self.class.get "/issue/#{issue_key}")
     end
 
     ##
@@ -42,7 +42,13 @@ module Stubbl
     #
     # @return [Array[Stubbl::JIRAIssue]] Matching issues
     def search(query)
-      self.class.get('/search/?q=' + url_encode(query))["issues"].collect do |issue|
+      issues = self.class.get('/search/?jql=' + url_encode(query))["issues"]
+
+      if issues.nil?
+        return []
+      end
+      
+      issues.collect do |issue|
         JIRAIssue.new issue
       end
     end

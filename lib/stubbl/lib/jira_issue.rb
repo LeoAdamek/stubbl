@@ -19,6 +19,14 @@ module Stubbl
     end
 
     ##
+    # Get the full URL to an issue
+    #
+    # @return [String] URL
+    def url
+      ENV['JIRA_URL'] + '/browse/' + self[:key]
+    end
+
+    ##
     # Get a short url to an issue.
     #
     # Uses bit.ly to shorten urls if it is configured.
@@ -26,10 +34,10 @@ module Stubbl
     #
     # @return [String] Short URL
     def short_url
-      if ENV['BITLY_USER'] && ENV['BITLY_PASS']
+      if ENV['BITLY_USER'] && ENV['BITLY_API_KEY']
         bitly_short_url
       else
-        send(:self)
+        url
       end
     end
 
@@ -39,8 +47,8 @@ module Stubbl
     # Get the short url via bitly
     def bitly_short_url
       Bitly.use_api_version_3
-      bitly = Bitly.new(ENV['BITLY_USER'], ENV['BITLY_PASS'])
-      bitly.shorten(send(:self), history: 1).jmp_url
+      bitly = Bitly.new(ENV['BITLY_USER'], ENV['BITLY_API_KEY'])
+      bitly.shorten(url, history: 1).jmp_url
     end
   end
 end

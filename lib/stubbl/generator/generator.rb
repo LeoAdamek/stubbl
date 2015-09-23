@@ -21,15 +21,13 @@ module Stubbl
       ##
       # Generate the stub for a single issue
       #
-      # @param [String] issue JIRA Issue Key
-      def issue(issue_key)
-        jira = Stubbl::JIRA.new( ENV['JIRA_URL'], ENV['JIRA_USER'], ENV['JIRA_PASS'] )
-        issue = jira.issue issue_key
+      # @param [Stubbl::JIRAIssue] issue JIRA Issue
+      def issue(issue)
         
         doc = Prawn::Document.new(
-          page_size: [53.mm, 75.mm],
+          page_size: [52.mm, 70.mm],
           page_layout: :landscape,
-          margin: 2.mm
+          margin: [2.mm,2.mm,2.mm,5.mm]
         )
 
         doc.font 'Courier'
@@ -42,22 +40,20 @@ module Stubbl
       ##
       # Generate the stubs for multiple issues
       #
-      # @param [Array[String]] issues JIRA Issue Keys
+      # @param [Array[Stubbl::JIRAIssue]] issues JIRA Issues
       def issues(issues)
 
-        jira = Stubbl::JIRA.new( ENV['JIRA_URL'], ENV['JIRA_USER'], ENV['JIRA_PASS'] )
-        
         doc = Prawn::Document.new(
-          page_size: [53.mm, 75.mm],
+          page_size: [53.mm, 74.mm],
           page_layout: :landscape,
-          margin: 2.mm
+          margin: [0,0,0,5.mm]
         )
 
         doc.font 'Courier'
 
         issues.each do |issue|
+          page_for_issue(doc, issue)
           doc.start_new_page
-          page_for_issue(doc, jira.issue(issue))
         end
 
         doc
@@ -74,37 +70,46 @@ module Stubbl
 
         # Add the issue key
         doc.draw_text issue[:key],
-                      at: [15.mm , 40.mm],
+                      at: [20.mm , 40.mm],
                       size: 24
 
         # Add the type
         unless issue.icon.nil?
           doc.image issue.icon,
-                  at: [0, 48.mm],
-                  width: 10.mm,
-                  height: 10.mm
+                  at: [0, 46.mm],
+                  width: 8.mm,
+                  height: 8.mm
         end
         
         # Draw the top-line
-        doc.horizontal_line (-2).mm, 53.mm, at: 48.mm
-        
+        doc.horizontal_line (-4).mm, 53.mm, at: 44.mm
         # Add the summary
-        doc.move_down 12.mm
+        doc.move_down 10.mm
         doc.text issue.fields.summary,
-                      size: 12
+                 size: 12
 
         # Add the creation date so we know if the issue is stale.
         doc.draw_text (Time.parse issue.fields.created).strftime('%d/%m/%y'),
                       at: [0, 1],
-                      size: 14
+                      size: 12
+
+        # Add the priority
+        doc.draw_text issue.fields.priority.name,
+                      at: [0, 14],
+                      size: 12
+
+        # Add the reporter
+        doc.draw_text issue.fields.reporter.displayName,
+                      at: [0, 28],
+                      size: 12
         
         # Add a QR code which links to the issue
         # FIXME: I don't show up on the output PDF.
         qrcode = RQRCode::QRCode.new(issue.short_url)
 
         doc.svg qrcode.as_svg,
-                at: [30.mm, 25.mm],
-                width: 25.mm
+                at: [35.mm, 20.mm],
+                width: 20.mm
 
       end
     end
