@@ -11,7 +11,7 @@ module Stubbl
     ##
     # Load the Web API
     #
-    # Loads the RESTful API Application
+    # Loads the API Application
     def load_api
       require 'stubbl/api/api'
     end

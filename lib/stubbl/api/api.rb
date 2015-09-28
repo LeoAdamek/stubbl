@@ -1,9 +1,15 @@
 # coding: utf-8
-require 'stubbl/api/webhooks'
+require 'sinatra'
 
-class Stubbl::API::App < Grape::API
-  # This API speaks JSON. 😄
-  format :json
-  
-  mount Stubbl::API::Webhooks
+module Stubbl
+  module API
+    class App < Sinatra::Base
+
+      get '/' do
+        "Hello World"
+      end
+    
+
+    end
+  end
 end

@@ -29,7 +29,9 @@ module Stubbl
       option :print, type: :boolean
       def issues(*issue_keys)
 
-        issues = jira.issues issue_keys
+        jira = Stubbl::JIRA.new
+        
+        issues = issue_keys.collect { |k| jira.issue k }
 
         if issues.empty?
           STDERR.puts "None of the specified issues were found"

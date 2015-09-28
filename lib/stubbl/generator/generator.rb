@@ -1,6 +1,17 @@
 # coding: utf-8
 module Stubbl
   class Generator
+
+    require 'prawn/measurement_extensions'
+    
+    PAGE_OPTIONS = {
+      page_size: [52.mm, 70.mm],
+      page_layout: :landscape,
+      margin: [2.mm,2.mm,2.mm,7.mm]
+    }
+
+    PAGE_FONT = 'Courier'
+    
     class << self
 
       ##
@@ -24,13 +35,8 @@ module Stubbl
       # @param [Stubbl::JIRAIssue] issue JIRA Issue
       def issue(issue)
         
-        doc = Prawn::Document.new(
-          page_size: [52.mm, 70.mm],
-          page_layout: :landscape,
-          margin: [2.mm,2.mm,2.mm,5.mm]
-        )
-
-        doc.font 'Courier'
+        doc = Prawn::Document.new PAGE_OPTIONS
+        doc.font PAGE_FONT
         
         page_for_issue( doc, issue )
 
@@ -43,13 +49,8 @@ module Stubbl
       # @param [Array[Stubbl::JIRAIssue]] issues JIRA Issues
       def issues(issues)
 
-        doc = Prawn::Document.new(
-          page_size: [53.mm, 74.mm],
-          page_layout: :landscape,
-          margin: [0,0,0,5.mm]
-        )
-
-        doc.font 'Courier'
+        doc = Prawn::Document.new PAGE_OPTIONS
+        doc.font PAGE_FONT
 
         issues.each do |issue|
           page_for_issue(doc, issue)
@@ -70,23 +71,30 @@ module Stubbl
 
         # Add the issue key
         doc.draw_text issue[:key],
-                      at: [20.mm , 40.mm],
+                      at: [10.mm , 42.mm],
                       size: 24
 
         # Add the type
-        unless issue.icon.nil?
-          doc.image issue.icon,
-                  at: [0, 46.mm],
-                  width: 8.mm,
-                  height: 8.mm
-        end
-        
+        doc.fill_color('000000')
+        doc.rectangle [0, 50.mm],
+                      10.mm,
+                      10.mm
+
+        doc.text_box issue.fields.issuetype.name[0],
+                     size: 10.mm,
+                     width: 10.mm,
+                     height: 10.mm,
+                     at: [0,48.mm]
+                
         # Draw the top-line
         doc.horizontal_line (-4).mm, 53.mm, at: 44.mm
         # Add the summary
-        doc.move_down 10.mm
-        doc.text issue.fields.summary,
-                 size: 12
+        doc.text_box issue.fields.summary,
+                     size: 12,
+                     width: 40.mm,
+                     height: 25.mm,
+                     overflow: :shrink_to_fit,
+                     at: [0, 36.mm]
 
         # Add the creation date so we know if the issue is stale.
         doc.draw_text (Time.parse issue.fields.created).strftime('%d/%m/%y'),
@@ -108,7 +116,7 @@ module Stubbl
         qrcode = RQRCode::QRCode.new(issue.short_url)
 
         doc.svg qrcode.as_svg,
-                at: [35.mm, 20.mm],
+                at: [40.mm, 20.mm],
                 width: 20.mm
 
       end
