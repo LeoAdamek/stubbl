@@ -19,7 +19,7 @@ gem 'sinatra', '~> 1.4.6'
 gem 'sinatra-contrib', '~> 1.4.6'
 
 gem 'tilt', '~> 2.0.1'
-gem 'slim', '~> 3.0.6'
+gem 'font-awesome-sass', '~> 4.4.0'
 
 group :development do
   gem 'guard'

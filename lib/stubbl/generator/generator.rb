@@ -11,6 +11,7 @@ module Stubbl
     }
 
     PAGE_FONT = 'Courier'
+    FONT_AWESOME_PATH = File.expand_path File.dirname(__FILE__) + '/fontawesome-webfont.ttf'
     
     class << self
 
@@ -36,7 +37,6 @@ module Stubbl
       def issue(issue)
         
         doc = Prawn::Document.new PAGE_OPTIONS
-        doc.font PAGE_FONT
         
         page_for_issue( doc, issue )
 
@@ -50,7 +50,6 @@ module Stubbl
       def issues(issues)
 
         doc = Prawn::Document.new PAGE_OPTIONS
-        doc.font PAGE_FONT
 
         issues.each do |issue|
           page_for_issue(doc, issue)
@@ -69,25 +68,15 @@ module Stubbl
       # @param [Stubbl::JIRAIssue] issue JIRA Issue for page
       def page_for_issue(doc, issue)
 
+        doc.font PAGE_FONT
+        
         # Add the issue key
         doc.draw_text issue[:key],
                       at: [10.mm , 42.mm],
                       size: 24
 
-        # Add the type
-        doc.fill_color('000000')
-        doc.rectangle [0, 50.mm],
-                      10.mm,
-                      10.mm
 
-        doc.text_box issue.fields.issuetype.name[0],
-                     size: 10.mm,
-                     width: 10.mm,
-                     height: 10.mm,
-                     at: [0,48.mm]
                 
-        # Draw the top-line
-        doc.horizontal_line (-4).mm, 53.mm, at: 44.mm
         # Add the summary
         doc.text_box issue.fields.summary,
                      size: 12,
@@ -112,13 +101,20 @@ module Stubbl
                       size: 12
         
         # Add a QR code which links to the issue
-        # FIXME: I don't show up on the output PDF.
         qrcode = RQRCode::QRCode.new(issue.short_url)
 
         doc.svg qrcode.as_svg,
                 at: [40.mm, 20.mm],
                 width: 20.mm
-
+        
+        # Add the type icon from Font Awesome
+        puts FONT_AWESOME_PATH
+        doc.font(FONT_AWESOME_PATH)
+          doc.text_box issue.icon,
+                       size: 10.mm,
+                       width: 10.mm,
+                       height: 10.mm,
+                       at: [0, 48.mm]
       end
     end
   end

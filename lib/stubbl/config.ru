@@ -1,3 +1,5 @@
 require_relative './lib/stubbl'
 
-run Stubbl::API::App
+Stubbl.load_api
+
+run Sinatra::Application

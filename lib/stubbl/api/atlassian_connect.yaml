@@ -1,0 +1,35 @@
+name: Stubbl
+description: Ticket Stubs have never been this good!
+key: com.mrzen.stubbl
+baseUrl: https://efe66470.ngrok.io/
+vendor:
+  name: Mr. Zen Ltd.
+  url: http://www.mrzen.com/
+
+authentication:
+  type: none
+
+apiVersion: 1
+
+modules:
+  webItems:
+    - location: operations-top-level
+      context: addon
+      url: /actions/print-stub/{issue.key}
+      key: make-issue-stub
+      name:
+        value: Print Stub
+      target:
+        type: inlinedialog
+      styleClasses:
+        - webitem
+        - system-present-webitem
+      tooltip:
+        value: Print a paper Stubbl of this issue.
+    
+  generalPages:
+    - url: /actions/stubs
+      key: stubs
+      location: system.top.navigation.bar
+      name:
+        value: Stubbl

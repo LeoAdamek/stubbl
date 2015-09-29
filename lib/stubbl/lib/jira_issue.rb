@@ -1,6 +1,18 @@
 # coding: utf-8
 module Stubbl
   class JIRAIssue < Hashie::Mash
+
+    ##
+    # Font-awesome mapping for Icons
+    ISSUE_TYPE_ICONS = {
+      issue: ["F188".hex].pack("U"),       # fa-bug
+      question: ["F059".hex].pack("U"),    # fa-question-circle
+      new_feature: ["F055".hex].pack("U"), # fa-plus-circle
+      story: ["F02D".hex].pack("U"),       # fa-book
+      epic: ["F0E7".hex].pack("U"),        # fa-bolt
+      task: ["F0AE".hex].pack("U")         # fa-tasks
+    }.freeze
+    
     ##
     # Get the icon file for this issue's type
     #
@@ -8,13 +20,9 @@ module Stubbl
     def icon
       begin
         s = fields.issuetype.name.downcase.gsub(/\W+/, '_')
-        ip = File.expand_path( File.dirname(__FILE__) + '/../icons/' + s + '.png')
-
-        return ip if File.exists? ip
-
-      rescue Exception => e
-        STDERR.puts e.message
-        return nil
+        puts s.to_sym
+        puts ISSUE_TYPE_ICONS[s.to_sym]
+        return ISSUE_TYPE_ICONS[s.to_sym]
       end
     end
 
