@@ -107,6 +107,7 @@ GEM
     rack (1.6.4)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-cors (0.4.0)
     rack-mount (0.8.3)
       rack (>= 1.0.0)
     rack-protection (1.5.3)
@@ -175,6 +176,7 @@ DEPENDENCIES
   prawn (~> 2.0)
   prawn-svg (~> 0.21)
   rack (~> 1.6)
+  rack-cors
   rqrcode (~> 0.7)
   rspec
   sinatra (~> 1.4.6)
@@ -183,4 +185,4 @@ DEPENDENCIES
   tilt (~> 2.0.1)
 
 BUNDLED WITH
-   1.10.6
+   1.12.4

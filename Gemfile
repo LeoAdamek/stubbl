@@ -18,6 +18,8 @@ gem 'bitly', '~>0.10'
 gem 'sinatra', '~> 1.4.6'
 gem 'sinatra-contrib', '~> 1.4.6'
 
+gem 'rack-cors'
+
 gem 'tilt', '~> 2.0.1'
 gem 'font-awesome-sass', '~> 4.4.0'
 
@@ -31,4 +33,3 @@ end
 group :development, :test do
   gem 'rspec'
 end
-

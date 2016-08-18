@@ -1,7 +1,7 @@
 name: Stubbl
 description: Ticket Stubs have never been this good!
 key: com.mrzen.stubbl
-baseUrl: https://efe66470.ngrok.io/
+baseUrl: https://stubbl.ngrok.io/
 vendor:
   name: Mr. Zen Ltd.
   url: http://www.mrzen.com/
